@@ -6,14 +6,17 @@
 /*   By: afelten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 10:29:04 by afelten           #+#    #+#             */
-/*   Updated: 2022/05/06 11:27:28 by afelten          ###   ########.fr       */
+/*   Updated: 2022/05/06 13:43:19 by afelten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdarg.h>
+#include <stddef.h>
 
-int	get_int_index(va_list args, int index);
+size_t	ft_strlen(const char *s);
+int		ft_atoi(const char *nptr);
+int		get_int_index(va_list args, int index);
 
 int	get_index(const char *format, int *nbrf, int *i, int *incr)
 {
@@ -75,8 +78,8 @@ int	get_width(va_list args, const char *format, int *nbrf, t_convers *conv)
 	}
 	else if (*format >= '0' && *format <= '9')
 	{
-		conv->width = ft_atoi(*format);
-		while (format[i] >= '0' && format <= '9')
+		conv->width = ft_atoi(format);
+		while (format[i] >= '0' && format[i] <= '9')
 			i++;
 	}
 	return (i);
@@ -88,10 +91,11 @@ int	get_precision(va_list args, const char *format, int *nbrf, t_convers *conv)
 	int		save;
 	int		index;
 
-	i = 1;
+	i = 0;
 	index = 0;
 	if (*format == '.')
 	{
+		i++;
 		if (format[i] == '*')
 		{
 			index = get_index_incre(format, nbrf, conv, &i);
@@ -101,8 +105,8 @@ int	get_precision(va_list args, const char *format, int *nbrf, t_convers *conv)
 		}
 		else if (*format >= '0' && *format <= '9')
 		{
-			conv->width = ft_atoi(*format);
-			while (format[i] >= '0' && format <= '9')
+			conv->width = ft_atoi(format);
+			while (format[i] >= '0' && format[i] <= '9')
 				i++;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: afelten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 14:43:25 by afelten           #+#    #+#             */
-/*   Updated: 2022/05/06 14:48:09 by afelten          ###   ########.fr       */
+/*   Updated: 2022/05/06 16:27:54 by afelten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	get_precision(va_list args, const char *format, int *nbrf, t_convers *conv);
 int	get_flags(const char *format, t_convers *conv);
 int	print_s(va_list args, t_convers *conv);
 int	print_c(va_list args, t_convers *conv);
+int	print_di(va_list args, t_convers *conv);
 
 static void	init_convers(t_convers *conv)
 {
@@ -38,8 +39,10 @@ static int	print_conversion(va_list args, char format, t_convers *conv)
 {
 	if (format == 'c')
 		return (print_c(args, conv));
-	if (format == 's')
+	else if (format == 's')
 		return (print_s(args, conv));
+	else if (format == 'd' || format == 'i')
+		return (print_di(args, conv));
 	return (0);
 }
 
@@ -70,7 +73,7 @@ static int	compute_conv(va_list args,
 	{
 		conv.index = *nbrf;
 		*nbrf += 1;
-	}	
+	}
 	save = print_conversion(args, *(*format + i), &conv);
 	*format += i + 1;
 	*nbrc += save;

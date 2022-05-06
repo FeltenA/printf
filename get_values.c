@@ -6,7 +6,7 @@
 /*   By: afelten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 10:29:04 by afelten           #+#    #+#             */
-/*   Updated: 2022/05/06 14:55:13 by afelten          ###   ########.fr       */
+/*   Updated: 2022/05/06 15:28:40 by afelten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	get_precision(va_list args, const char *format, int *nbrf, t_convers *conv)
 		}
 		else if (format[i] >= '0' && format[i] <= '9')
 		{
-			conv->precision = ft_atoi(format);
+			conv->precision = ft_atoi(format + i);
 			while (format[i] >= '0' && format[i] <= '9')
 				i++;
 		}

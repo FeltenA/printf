@@ -6,7 +6,7 @@
 /*   By: afelten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 14:43:25 by afelten           #+#    #+#             */
-/*   Updated: 2022/05/06 13:45:21 by afelten          ###   ########.fr       */
+/*   Updated: 2022/05/06 14:48:09 by afelten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,13 @@ static int	compute_conv(va_list args,
 	i = 1;
 	init_convers(&conv);
 	conv.index = get_index(*format + i, nbrf, &i, &(conv.incremented));
-	save = get_width(args, *format + i, nbrf, &conv);
-	if (save == -1 || conv.index == -1)
+	if (conv.index == -1)
+		return (-1);
+	i += get_flags(*format + i, &conv);
+	save = get_width(args, *format + i, nbrf , &conv);
+	if (save == -1)
 		return (-1);
 	i += save;
-	i += get_flags(*format + i, &conv);
 	save = get_precision(args, *format + i, nbrf, &conv);
 	if (save == -1)
 		return (-1);
@@ -70,8 +72,7 @@ static int	compute_conv(va_list args,
 		*nbrf += 1;
 	}	
 	save = print_conversion(args, *(*format + i), &conv);
-	if (save)
-		*format += i + 1;
+	*format += i + 1;
 	*nbrc += save;
 }
 

@@ -103,7 +103,7 @@ int	get_precision(va_list args, const char *format, int *nbrf, t_convers *conv)
 				return (-1);
 			conv->precision = get_int_index(args, index);
 		}
-		else if (format[i] >= '0' && format[i] <= '9')
+		else
 		{
 			conv->precision = ft_atoi(format + i);
 			while (format[i] >= '0' && format[i] <= '9')

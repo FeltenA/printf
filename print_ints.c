@@ -69,6 +69,8 @@ int	print_di(va_list args, t_convers *conv)
 
 	nbrc = 0;
 	nbr = get_int_index(args, conv->index);
+	if (!nbr && !conv->precision)
+		return (print_filler(conv->width, ' '));
 	len = get_nbr_len(nbr, 10);
 	tlen = len;
 	if (len < conv->precision)

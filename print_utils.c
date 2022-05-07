@@ -12,6 +12,19 @@
 
 #include <unistd.h>
 
+int	putstr_count(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		write(1, &str[i], 1);
+		i++;
+	}
+	return (i);
+}
+
 int	print_filler(int n, char c)
 {
 	int	i;

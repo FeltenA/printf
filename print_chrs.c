@@ -14,10 +14,20 @@
 #include <unistd.h>
 #include "ft_printf.h"
 
-size_t	ft_strlen(const char *s);
+int		putstr_count(char *str);
 int		print_filler(int n, char c);
 int		get_int_index(va_list args, int index);
 char	*get_str_index(va_list args, int index);
+
+int	nstrlen(char *str, unsigned int n)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && i < n)
+		i++;
+	return (i);
+}
 
 int	print_s(va_list args, t_convers *conv)
 {
@@ -27,12 +37,16 @@ int	print_s(va_list args, t_convers *conv)
 
 	nbrc = 0;
 	str = get_str_index(args, conv->index);
-	len = ft_strlen(str);
-	if (conv->precision != -1 && conv->precision < len)
-		len = conv->precision;
+	if (!str)
+		len = 6;
+	else
+		len = nstrlen(str, conv->precision);
 	if (!conv->minus)
 		nbrc += print_filler(conv->width - len, ' ');
-	write(1, str, len);
+	if (!str)
+		putstr_count("(null)");
+	else
+		write(1, str, len);
 	nbrc += len;
 	if (conv->minus)
 		nbrc += print_filler(conv->width - len, ' ');

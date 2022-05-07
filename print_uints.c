@@ -47,6 +47,8 @@ int	print_u(va_list args, t_convers *conv)
 
 	nbrc = 0;
 	nbr = (unsigned int)get_int_index(args, conv->index);
+    if (!nbr && !conv->precision)
+        return (print_filler(conv->width, ' '));
 	len = get_unbr_len(nbr, 10);
 	tlen = len;
 	if (len < conv->precision)

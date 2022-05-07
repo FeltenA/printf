@@ -89,7 +89,7 @@ int	ft_printf(const char *format, ...)
 	va_list	args;
 
 	nbrc = 0;
-	nbrf = 0;
+	nbrf = 1;
 	va_start(args, format);
 	while (*format)
 	{

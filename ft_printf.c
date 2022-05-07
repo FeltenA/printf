@@ -21,6 +21,7 @@ int	get_flags(const char *format, t_convers *conv);
 int	print_s(va_list args, t_convers *conv);
 int	print_c(va_list args, t_convers *conv);
 int	print_di(va_list args, t_convers *conv);
+int	print_u(va_list args, t_convers *conv);
 
 static void	init_convers(t_convers *conv)
 {
@@ -43,6 +44,8 @@ static int	print_conversion(va_list args, char format, t_convers *conv)
 		return (print_s(args, conv));
 	else if (format == 'd' || format == 'i')
 		return (print_di(args, conv));
+	else if (format == 'u')
+		return (print_u(args, conv));
 	return (0);
 }
 

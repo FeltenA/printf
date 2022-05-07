@@ -14,7 +14,6 @@
 #include <unistd.h>
 #include "ft_printf.h"
 
-void	print_uint(unsigned int n);
 int		get_nbr_len(int n, int base);
 int		print_filler(int n, char c);
 int		get_int_index(va_list args, int index);
@@ -51,7 +50,7 @@ int	print_start_di(int nbr, int len, int *tlen, t_convers *conv)
 			{
 				conv->precision = conv->width;
 				if (nbr < 0 || (nbr > 0 && (conv->plus || (conv->space
-					&& (conv->width < *tlen || conv->zero)))))
+					&& conv->width < *tlen))))
 					conv->precision--;
 			}
 		}
@@ -77,7 +76,7 @@ int	print_di(va_list args, t_convers *conv)
 	nbrc += print_start_di(nbr, len, &tlen, conv);
 	if (nbr < 0)
 		write(1, "-", 1);
-	if (nbr > 0 && conv->plus)
+	else if (nbr > 0 && conv->plus)
 		write(1, "+", 1);
 	else if (nbr > 0 && conv->space && (conv->width < tlen || conv->zero))
 		write(1, " ", 1);

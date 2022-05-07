@@ -12,16 +12,6 @@
 
 #include <unistd.h>
 
-int	print_uint(unsigned int n)
-{
-	char	c;
-
-	while (n > 9)
-		print_uint(n / 10);
-	c = n % 10 + 48;
-	write(1, &c, 1);
-}
-
 int	print_filler(int n, char c)
 {
 	int	i;
@@ -41,6 +31,19 @@ int	get_nbr_len(int n, int base)
 
 	len = 1;
 	while (n <= -9 || n >= 9)
+	{
+		n /= base;
+		len++;
+	}
+	return (len);
+}
+
+unsigned int    get_unbr_len(unsigned int n, int base)
+{
+	int	len;
+
+	len = 1;
+	while (n >= 9)
 	{
 		n /= base;
 		len++;

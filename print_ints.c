@@ -23,13 +23,42 @@ void	print_int(int n)
 {
 	char	c;
 
-	if (n > 9 || c < -9)
+	if (n > 9 || n < -9)
 		print_int(n / 10);
 	if (n < 0)
 		c = (n % 10) * -1 + 48;
 	else
 		c = n % 10 + 48;
 	write(1, &c, 1);
+}
+
+int	print_start_di(int nbr, int len, int *tlen, t_convers *conv)
+{
+	int	nbrc;
+
+	nbrc = 0;
+	if (nbr < 0 || (nbr > 0 && (conv->plus
+		|| (conv->space && (conv->width < *tlen || conv->zero)))))
+	{
+		(*tlen)++;
+		nbrc++;
+	}
+	if (!conv->minus)
+	{
+		if (conv->zero && conv->precision == -1)
+		{
+			if (conv->width > conv->precision)
+			{
+				conv->precision = conv->width;
+				if (nbr < 0 || (nbr > 0 && (conv->plus || (conv->space
+					&& (conv->width < *tlen || conv->zero)))))
+					conv->precision--;
+			}
+		}
+		else
+			nbrc += print_filler(conv->width - *tlen, ' ');
+	}
+	return (nbrc);
 }
 
 int	print_di(va_list args, t_convers *conv)
@@ -45,24 +74,16 @@ int	print_di(va_list args, t_convers *conv)
 	tlen = len;
 	if (len < conv->precision)
 		tlen = conv->precision;
-	if (nbr < 0 || (nbr > 0 && (conv->plus || (conv->space && conv->width < tlen))))
-		tlen++;
-	if (!conv->minus)
-	{
-		if (conv->zero && conv->precision == -1)
-			nbrc += print_filler(conv->width - tlen, '0');
-		else
-			nbrc += print_filler(conv->width - tlen, ' ');
-	}
+	nbrc += print_start_di(nbr, len, &tlen, conv);
 	if (nbr < 0)
 		write(1, "-", 1);
 	if (nbr > 0 && conv->plus)
 		write(1, "+", 1);
-	else if (nbr > 0 && conv->space && conv->width < tlen)
+	else if (nbr > 0 && conv->space && (conv->width < tlen || conv->zero))
 		write(1, " ", 1);
-	print_filler(conv->precision - len, '0');
+	nbrc += print_filler(conv->precision - len, '0');
 	print_int(nbr);
-	nbrc += tlen;
+	nbrc += len;
 	if (conv->minus)
 		nbrc += print_filler(conv->width - tlen, ' ');
 	return (nbrc);

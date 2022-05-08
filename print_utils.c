@@ -12,6 +12,12 @@
 
 #include <unistd.h>
 
+int	putchar_count(char c)
+{
+	write(1, &c, 1);
+	return (1);
+}
+
 int	putstr_count(char *str)
 {
 	int	i;

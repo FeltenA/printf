@@ -14,6 +14,7 @@
 #include <stdarg.h>
 #include "ft_printf.h"
 
+int	putchar_count(char c);
 int	get_index(const char *format, int *nbrf, int *i, int *incr);
 int	get_width(va_list args, const char *format, int *nbrf, t_convers *conv);
 int	get_precision(va_list args, const char *format, int *nbrf, t_convers *conv);
@@ -22,6 +23,7 @@ int	print_s(va_list args, t_convers *conv);
 int	print_c(va_list args, t_convers *conv);
 int	print_di(va_list args, t_convers *conv);
 int	print_u(va_list args, t_convers *conv);
+int	print_xX(va_list args, t_convers *conv, int type);
 
 static void	init_convers(t_convers *conv)
 {
@@ -46,7 +48,11 @@ static int	print_conversion(va_list args, char format, t_convers *conv)
 		return (print_di(args, conv));
 	else if (format == 'u')
 		return (print_u(args, conv));
-	return (0);
+	else if (format == 'x')
+		return (print_xX(args, conv, 0));
+	else if (format == 'X')
+		return (print_xX(args, conv, 1));
+	return (putchar_count(format));
 }
 
 static int	compute_conv(va_list args,
